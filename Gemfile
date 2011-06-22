@@ -19,6 +19,8 @@ group :test do
     gem 'rspec', '2.6.0'
 	gem 'webrat', '0.7.3'
     gem 'spork', '0.8.5'
-	gem  'factory_girl_rails', '1.0'	
+	gem 'factory_girl_rails', '1.0'
+	gem 'database_cleaner'
+	
  end
 

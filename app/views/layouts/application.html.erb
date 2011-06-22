@@ -15,9 +15,15 @@
 	   <header>
 	   		<%= render 'layouts/header' %>
 	   </header>
-  	
+	
        <section class="round">
-         	<%= yield %> 
+			<% flash.each do |key, value| %> 
+			   	<div class="flash <%= key %>">
+						<%= value %>
+				</div>
+			<% end %>
+         	
+			<%= yield %> 
        </section>
 
   	   <footer> 
