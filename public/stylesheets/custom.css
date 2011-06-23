@@ -133,7 +133,13 @@ margin-bottom: 10px;
 
 
 
+ul.users {
+	margin-top: 1em;
+} 
 
+.users li {
+	list-style: none;
+}
 
 /* error messages */
 .field_with_errors {
