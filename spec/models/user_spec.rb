@@ -121,7 +121,7 @@ describe User do
               nonexistent_user.should be_nil
           end
         
-           it "should return the user on email/apssword match"  do
+           it "should return the user on email/password match"  do
                 matching_user = User.authenticate(@attr[:email], @attr[:password] )
                 matching_user.should == @user
             end
@@ -129,24 +129,5 @@ describe User do
         end
        
    end
-   
-describe "Users" do   
-   describe "signup" do
-       describe "failure" do
-         it "should not make a new user" do
-           lambda do
-             visit signup_path
-             fill_in "Name", :with => ""
-             fill_in "Email", :with => ""
-             fill_in "Password", :with => ""
-             fill_in "Confirmation", :with => ""
-             click_button "Sign Up"
-             response.should render_template('users/new')
-             response.should have_selector("div#error_explanation")
-           end.should_not change(User, :count)
-         end
-       end
-     end
-  end 
    
 end
