@@ -10,6 +10,11 @@ namespace :db do
                  :email => "exampleUser@railstutorial.org",
                  :password => "foobar", 
                  :password_confirmation => "foobar")
+                 
+   User.create!(:name => "Michael",
+                :email => "public.nic@t-online.de",
+                :password => "ramses", 
+                :password_confirmation => "ramses")             
    # admin.toggle!(:admin)
 
     99.times do |n| 
@@ -20,7 +25,16 @@ namespace :db do
                    :email => email, 
                    :password => password, 
                    :password_confirmation => password)
-      end 
+    end 
+      
+      
+    User.all(:limit => 6).each do |user|
+          50.times do 
+              user.microposts.create!(:content => Faker::Lorem.sentence(5))
+           end 
+       end
+      
    end
-
+   
+   
 end

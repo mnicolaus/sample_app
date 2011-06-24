@@ -16,6 +16,7 @@ class UsersController < ApplicationController
   
   def show
      @user = User.find( params[:id])
+     @microposts = @user.microposts.paginate(:page => params[:page])
      @title = @user.name
   end
   
@@ -56,5 +57,5 @@ class UsersController < ApplicationController
      redirect_to users_path
   end
   
-
+  
 end

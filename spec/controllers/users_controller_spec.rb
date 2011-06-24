@@ -109,7 +109,7 @@ describe UsersController do
     
        describe "success" do
            before(:each) do
-                 @attr = { :name => "New Name", :email => "user@example.org",
+                 @attr = { :name => "Michael Nicolaus", :email => "Michael.Nicolaus@t-online.de",
                       :password => "barbaz", :password_confirmation => "barbaz" }
             end
 
@@ -170,10 +170,20 @@ describe UsersController do
         get :show, :id => @user
         assigns(:user).should == @user
      end  
+     
+     it "should show the user's microposts" do
+          mp1 = Factory(:micropost, :user => @user, :content => "Foo bar") 
+          mp2 = Factory(:micropost, :user => @user, :content => "Baz quux") 
+          get :show, :id => @user 
+          response.should have_selector("span.content", :content => mp1.content) 
+          response.should have_selector("span.content", :content => mp2.content)
+     end
+     
+     
   end
   
   describe "POST 'create'" do
-  
+      
     describe "failure" do
          
            before(:each) do
@@ -202,16 +212,15 @@ describe UsersController do
     describe "success" do
          
            before(:each) do
-                 @attr = {  :name => "New User", :email => "user@example.com", 
-                           :password => "foobar", :password_confirmation => "foorbar"}
-            end
-      
-                
+                    @user = Factory(:user)
+                    test_sign_in(@user)
+           end
+                        
            it "should create a user" do
              lambda do
                  post :create, :user => @attr
-                 response.should_not change(User, :count).by(1) 
-             end
+              end.should_not change(User, :count).by(1) 
+             
            end
            
            it "should sign the user in" do
@@ -226,7 +235,7 @@ describe UsersController do
            
            it "should have a welcome message" do
              post :create, :user => @attr
-             flash[:success].should == "Welcome to the Sample App!"
+             flash[:success].should =~ /Welcome/
            end
     end
   

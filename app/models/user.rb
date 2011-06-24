@@ -16,6 +16,9 @@
 require 'digest'
 
 class User < ActiveRecord::Base
+  
+  has_many :microposts, :dependent => :destroy
+  
   attr_accessor   :password
   attr_accessible :name, :email, :password, :password_confirmation, :encrypted_password
   
@@ -51,7 +54,18 @@ class User < ActiveRecord::Base
  end
  
  
+ def to_param
+      #{}"#{id}-#{name.gsub(/[^a-z0-9]+/i, '-')}"
+      "#{id}-#{name.parameterize}"
+ end
  
+ 
+  def feed
+        # This is preliminary. See Chapter 12 for the full implementation.
+       Micropost.where("user_id = ?", id)
+ end
+ 
+  
  private 
  
    def encrypt_password
