@@ -6,28 +6,47 @@ describe PagesController do
   
   before(:each)  do
      @base_title = "Ruby on Rails Tutorial Sample App"
-      @user = Factory(:user)
-     test_sign_in(@user)
   end
 
   describe "GET 'home'" do
     
+    describe "when not signed in" do
+        
+        before(:each) do
+           get :home
+        end
+    
+         it "should be successful" do
+            response.should be_success
+          end
+          
+          
+         it "should have the right title" do
+              response.should have_selector("title", 
+                      :content => @base_title + " | Home" )
+         end
+         
+         it "should have a non blank body" do
+             response.body.should_not =~ /<body>\s*<\/body>/ 
+         end
+    end
      
-    it "should be successful" do
-      get :home
-      response.should be_success
+    describe "when signed in" do
+        before(:each) do
+            @user = test_sign_in(Factory(:user)) 
+            other_user = Factory(:user, :name => "example", 
+                                        :email => "example@railstutorial.org")  
+            other_user.follow!(@user)
+        end
+      
+        it "should have the right follower/following counts" do
+            get :home 
+            response.should have_selector("a", :href => following_user_path(@user),
+                                               :content => "0 following") 
+            response.should have_selector("a", :href => followers_user_path(@user),
+                                               :content => "1 follower")
+        end
     end
-    
-    it "should have the right title" do
-      get :home
-      response.should have_selector("title", 
-              :content => @base_title + " | Home" )
-    end
-    
-     it "should have a non blank body" do
-        get 'home'
-        response.body.should_not =~ /<body>\s*<\/body>/ 
-      end
       
   end
 

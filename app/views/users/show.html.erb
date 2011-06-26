@@ -2,7 +2,11 @@
 <table class="profile" summary="Profile information"> 
 	<tr>
 		<td class="main">
-			 <h1> <%= gravatar_for @user %> <%= @user.name %> </h1>
+			 <h1> <%= gravatar_for @user %> 
+			      <%= @user.name %> 
+			 </h1>
+		
+			<%= render 'follow_form' if signed_in? %>
 		
 			<% unless @user.microposts.empty? %>
 			   <table class="microposts" summary="User microposts"> 
@@ -17,6 +21,7 @@
 			<strong>Name: </strong><%= link_to @user.name, @user %> <br />
 			<strong>Email: </strong> <%=  @user.email %> <br />
 			<strong>Microposts: </strong> <%= @user.microposts.count %>
+			<%= render 'shared/stats' %>
 		</td>
 	</tr> 
 </table>
